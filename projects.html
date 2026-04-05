@@ -1,0 +1,36 @@
+---
+layout: default
+title: Projects
+---
+
+<section id="projects">
+  <div class="section-inner">
+    <p class="section-label">Projects</p>
+    <div class="projects-list">
+
+      <!-- Loops through every file in the _projects/ folder automatically -->
+      {% for project in site.projects %}
+        <div class="project-card">
+          <div class="project-top">
+            <a class="project-name" href="{{ project.url }}">{{ project.title }}</a>
+            <!-- Shows a GitHub link if the project has one set -->
+            {% if project.github %}
+              <a class="project-link" href="{{ project.github }}" target="_blank">GitHub ↗</a>
+            {% endif %}
+          </div>
+          <p class="project-desc">{{ project.description }}</p>
+          <div class="project-tags">
+            {% for tag in project.tags %}
+              <span class="project-tag">{{ tag }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+
+      {% if site.projects.size == 0 %}
+        <p class="project-desc" style="padding: 1.25rem 1.5rem;">No projects yet — check back soon.</p>
+      {% endif %}
+
+    </div>
+  </div>
+</section>

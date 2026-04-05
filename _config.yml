@@ -1,0 +1,26 @@
+title: James Savage
+email: jamessavage@live.co.uk
+description: Cybersecurity & software developer based in Newcastle upon Tyne.
+
+url: "https://jsavage-cyber.github.io"
+baseurl: ""
+
+github_username: jsavage-cyber
+
+theme: null
+
+# Tells Jekyll about the projects collection so it knows to process it
+collections:
+  projects:
+    output: true        # generates a separate page for each project file
+    permalink: /projects/:name
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      permalink: /progress/:year/:month/:day/:title
+
+plugins:
+  - jekyll-feed

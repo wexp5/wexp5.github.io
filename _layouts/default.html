@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ page.title }} | {{ site.title }}</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<!-- Adds a "home" class to body on the homepage so we can target it in CSS -->
+<body>
+  {% include nav.html %}
+
+  <!-- Page content expands to fill available space, pushing footer down -->
+  <main style="flex: 1;">
+    {{ content }}
+  </main>
+
+  <!-- Footer pulled in from _includes/footer.html -->
+  {% include footer.html %}
+
+</body>
+</html>

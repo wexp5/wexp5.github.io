@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ page.title }} | {{ site.title }}</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+  {% include nav.html %}
+
+  <div class="post-content">
+
+    <!-- Back link to projects index -->
+    <p class="section-label">
+      <a href="/projects" style="color:  #1a56db;">← Projects</a>
+    </p>
+
+    <h1 class="hero-name" style="font-size: 2rem; margin-bottom: 0.5rem;">
+      {{ page.title }}
+    </h1>
+
+    <!-- Tags -->
+    {% if page.tags %}
+      <div class="project-tags" style="margin-bottom: 2rem;">
+        {% for tag in page.tags %}
+          <span class="project-tag">{{ tag }}</span>
+        {% endfor %}
+      </div>
+    {% endif %}
+    
+    <!-- Shows a GitHub button if the project has a github link set -->
+    {% if page.github %}
+      <a class="project-link" href="{{ page.github }}" target="_blank">
+      View on GitHub ↗
+      </a>
+    {% endif %}
+
+    <!-- Shows a live demo button if the project has a demo link set -->
+    {% if page.demo %}
+      <a class="btn btn-primary" href="{{ page.demo }}" target="_blank" style="margin-bottom: 1.5rem; display: inline-block;">
+        Live demo ↗
+      </a>
+    {% endif %}
+
+
+    <!-- Project content written in Markdown -->
+    {{ content }}
+
+  </div>
+
+  {% include footer.html %}
+
+</body>
+</html>

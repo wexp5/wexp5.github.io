@@ -1,0 +1,655 @@
+/* ============================================================
+   GLOBAL DEFAULTS
+============================================================ */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  background-color: #cfddf5;
+  color: #1a2a4a;
+  line-height: 1.7;
+  font-size: 16px;
+  padding-top: 56px;             /* matches nav height */
+}
+
+a {
+  color: #1a56db;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+
+/* ============================================================
+   BACKGROUND
+   Mesh gradient with noise texture.
+   Adjust baseFrequency for coarser (0.4) or finer (0.8) grain.
+============================================================ */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(0, 90, 244, 0.25) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 10%, rgba(0, 92, 197, 0.2) 0%, transparent 30%),
+    radial-gradient(ellipse at 70% 80%, rgba(1, 71, 193, 0.2) 0%, transparent 40%),
+    radial-gradient(ellipse at 10% 80%, rgba(0, 79, 188, 0.2) 0%, transparent 60%),
+    #cfddf5;
+  filter: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeBlend in='SourceGraphic' mode='overlay'/%3E%3C/filter%3E%3C/svg%3E#noise");
+}
+
+/* Blur layer sits on top of the noise */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  backdrop-filter: blur(2px);
+  pointer-events: none;
+}
+
+
+/* ============================================================
+   NAVIGATION BAR
+============================================================ */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background-color: rgba(207, 221, 245, 0.85);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  height: 56px;
+}
+
+.nav-inner {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 56px;
+}
+
+.nav-name {
+  position: absolute;
+  left: 2rem;
+  font-weight: 500;
+  color: #1a2a4a;
+  text-decoration: none;
+  transition: color 0.15s, background-color 0.15s;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+.nav-name:hover {
+  text-decoration: none;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 4rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-links li {
+  list-style: none;
+}
+
+.nav-links a {
+  display: inline-block;
+  color: #1a2a4a;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.15s, background-color 0.15s;
+  padding: 4px 8px;
+  border-radius: 8px;
+  text-decoration: none;
+}
+.nav-links a:hover {
+  text-decoration: none;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+
+/* ============================================================
+   SECTION LAYOUT
+============================================================ */
+section {
+  padding: 4rem 3rem;
+  background-color: transparent;
+}
+
+section:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.section-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Frosted pill label — shown at the top of index pages */
+.section-label {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1a2a4a;
+  margin-bottom: 2rem;
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(8px);
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 2px 12px rgba(0, 60, 180, 0.1);
+}
+
+
+/* ============================================================
+   HOMEPAGE — full screen, no scroll
+   .homepage class is on the section in index.html
+============================================================ */
+.homepage {
+  height: calc(100vh - 56px);   
+  display: flex;
+  align-items: center;
+  padding: 0 3rem;
+}
+
+body:has(.homepage) {
+  overflow: hidden;
+}
+
+/* ============================================================
+   HERO / ABOUT SECTION
+============================================================ */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  width: 100%;
+}
+
+.hero-name {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 600;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  color: #1a2a4a;
+  letter-spacing: -0.02em;
+}
+
+.hero-bio {
+  font-size: 1.05rem;
+  color: #1a2a4a;
+  margin-bottom: 2.5rem;
+  line-height: 1.8;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+
+/* ============================================================
+   QUICK INFO CARD
+   Right side of the homepage hero section.
+============================================================ */
+.hero-card {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  border-radius: 0;
+  padding: 2rem;
+}
+
+.hero-card-inner {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.hero-card-info {
+  flex: 1;
+}
+
+.hero-card-label {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1a2a4a;
+  margin-bottom: 1rem;
+}
+
+.hero-card-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  font-size: 14px;
+  color: #1a2a4a;
+}
+.hero-card-row:last-child {
+  border-bottom: none;
+}
+
+.hero-card-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #8dadf0;
+  flex-shrink: 0;
+}
+
+/* Profile photo — rectangular with rounded corners */
+.profile-photo-wrap {
+  display: flex;
+  justify-content: center;    /* centres the image */
+  margin-bottom: 1.25rem;
+}
+
+.profile-photo {
+  width: 360px;
+  height: 360px;
+  border-radius: 24px;        /* more rounded corners */
+  object-fit: cover;
+  object-position: center top;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 16px rgba(0, 60, 180, 0.18);
+  outline: 4px solid rgba(207, 221, 245, 0.6);
+  outline-offset: -6px;
+}
+
+/* Social icons row at the bottom of the card */
+.hero-card-socials {
+  display: flex;
+  gap: 10px;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  justify-content: center;   /* centres the icons */
+  gap: 3rem;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  color: #1a56db;
+  transition: background-color 0.15s;
+  text-decoration: none;
+}
+.social-link:hover {
+  background-color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+}
+
+.social-link svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  display: block;
+}
+
+
+/* ============================================================
+   BUTTONS
+   .btn — frosted glass
+   .btn-primary — blue frosted
+============================================================ */
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  color: #1a2a4a;
+  background-color: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 12px rgba(0, 60, 180, 0.1);
+  transition: background-color 0.15s;
+}
+.btn:hover {
+  background-color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: rgba(26, 86, 219, 0.55);
+  color: #ffffff;
+  border: 1px solid rgba(26, 86, 219, 0.8);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 12px rgba(0, 60, 180, 0.15);
+}
+.btn-primary:hover {
+  background-color: rgba(26, 86, 219, 0.7);
+}
+
+
+/* ============================================================
+   PROJECT AND BLOG CARDS
+   Used on projects.html and progress.html index pages.
+============================================================ */
+.projects-list {
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+  background-color: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 2px 16px rgba(0, 60, 180, 0.12);
+}
+
+.project-card {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  background-color: transparent;
+  transition: background-color 0.15s;
+}
+.project-card:last-child {
+  border-bottom: none;
+}
+.project-card:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.project-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+.project-name {
+  font-weight: 500;
+  font-size: 15px;
+  color: #1a2a4a;
+}
+
+.project-link {
+  font-size: 13px;
+  white-space: nowrap;
+  color: #1a56db;
+}
+
+.project-desc {
+  font-size: 14px;
+  color: #3a5a8a;
+  margin-bottom: 0.75rem;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.project-tag {
+  font-size: 12px;
+  padding: 2px 10px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  color: #1a56db;
+}
+
+
+/* ============================================================
+   CONTACT SECTION
+============================================================ */
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+}
+
+.contact-label {
+  color: #3a5a8a;
+  font-size: 13px;
+  min-width: 64px;
+}
+
+
+/* ============================================================
+   CONTACT FORM
+============================================================ */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 13px;
+  color: #3a5a8a;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: system-ui, sans-serif;
+  color: #1a2a4a;
+  background-color: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(4px);
+  width: 100%;
+  transition: border-color 0.15s;
+}
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.9);
+}
+.contact-form textarea {
+  resize: vertical;
+}
+
+
+/* ============================================================
+   FOOTER
+============================================================ */
+footer {
+  text-align: center;
+  padding: 2rem;
+  font-size: 13px;
+  color: #3a5a8a;
+  background-color: transparent;
+}
+
+.homepage-footer {
+  text-align: center;
+  font-size: 13px;
+  color: #3a5a8a;
+  padding-top: 1rem;
+}
+
+body:has(.homepage) footer {
+  display: none;              
+}
+
+/* ============================================================
+   POST / PROJECT PAGE CONTENT
+   Frosted boxes removed inside posts — plain text only.
+   Code blocks keep the frosted style.
+============================================================ */
+.post-content {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Strip frosted boxes from all headings inside a post */
+.post-content h1,
+.post-content h2,
+.post-content h3 {
+  background-color: transparent;
+  backdrop-filter: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  display: block;
+  color: #1a2a4a;
+}
+
+.post-content h1 { font-size: 2rem;   font-weight: 600; margin: 2rem 0 1rem; }
+.post-content h2 { font-size: 1.4rem; font-weight: 500; margin: 2rem 0 0.75rem; }
+.post-content h3 { font-size: 1.1rem; font-weight: 500; margin: 1.5rem 0 0.5rem; }
+
+.post-content p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #1a2a4a;
+  margin-bottom: 1.25rem;
+}
+
+.post-content ul,
+.post-content ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.post-content li {
+  font-size: 16px;
+  line-height: 1.8;
+  margin-bottom: 0.25rem;
+}
+
+.post-content code {
+  font-family: monospace;
+  font-size: 14px;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #1a2a4a;
+}
+
+/* Code blocks keep the frosted box */
+.post-content pre {
+  background-color: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  padding: 1rem;
+  border-radius: 12px;
+  overflow-x: auto;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 2px 12px rgba(0, 60, 180, 0.08);
+}
+.post-content pre code {
+  background: none;
+  padding: 0;
+  font-size: 14px;
+}
+
+.post-content img {
+  max-width: 100%;
+  border-radius: 12px;
+  margin: 1rem 0;
+}
+
+.post-content hr {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  margin: 2rem 0;
+}
+
+.post-content blockquote {
+  border-left: 3px solid #1a56db;
+  padding-left: 1rem;
+  color: #3a5a8a;
+  margin: 1.25rem 0;
+  font-style: italic;
+}
+
+/* Strip frosted box from section-label inside posts */
+.post-content .section-label {
+  background-color: transparent;
+  backdrop-filter: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+
+/* ============================================================
+   RESPONSIVE — single column on small screens
+============================================================ */
+@media (max-width: 680px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .hero-name {
+    font-size: 2.5rem;
+  }
+
+  .hero-card-inner {
+    flex-direction: column-reverse;
+  }
+
+  .profile-photo {
+    width: 100%;
+    height: 180px;
+  }
+
+  section {
+    padding: 4rem 1.5rem;
+  }
+
+  .homepage {
+    padding: 0 1.5rem;
+  }
+
+  .nav-links {
+    gap: 1.5rem;
+  }
+}
